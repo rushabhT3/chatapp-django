@@ -5,9 +5,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404
+from django.views import View
+from django.utils.decorators import method_decorator
+from django.core import serializers
 import json
 
-from .models import Note
+from .models import Note, NoteHistory
 
 @csrf_exempt
 def signup_view(request):
@@ -54,9 +57,33 @@ def create_note_view(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
-def get_note(request, id):
-    note = get_object_or_404(Note, id=id)
-    if request.user == note.user:  # assuming you have user authentication in place
-        return JsonResponse({'title': note.title, 'content': note.content})
-    else:
-        return JsonResponse({'error': 'You do not have permission to view this note.'}, status=403)
+@method_decorator(csrf_exempt, name='dispatch')
+class NoteView(View):
+    def get(self, request, id):
+        note = get_object_or_404(Note, id=id)
+        if request.user == note.user:  # assuming you have user authentication in place
+            return JsonResponse({'title': note.title, 'content': note.content})
+        else:
+            return JsonResponse({'error': 'You do not have permission to view this note.'}, status=403)
+
+    def put(self, request, id):
+        note = get_object_or_404(Note, id=id)
+        if request.user == note.user or request.user in note.shared_users.all():
+            data = json.loads(request.body)  # parse the request body as JSON
+            note.title = data['title']  # update the title
+            note.content = data['content']  # use the parsed data
+            note.save()
+            NoteHistory.objects.create(note=note, title=data['title'], content=data['content'], user=request.user)  # include title here
+            return JsonResponse({'message': 'Note updated successfully.'})
+        else:
+            return JsonResponse({'error': 'You do not have permission to edit this note.'}, status=403)
+
+class NoteHistoryView(View):
+    def get(self, request, id):
+        note = get_object_or_404(Note, id=id)
+        if request.user == note.user or request.user in note.shared_users.all():
+            note_history = NoteHistory.objects.filter(note=note).order_by('-timestamp')
+            data = [{'title': nh.title, 'content': nh.content, 'timestamp': nh.timestamp, 'user': nh.user.username} for nh in note_history]
+            return JsonResponse({'note_history': data})
+        else:
+            return JsonResponse({'error': 'You do not have permission to view this note history.'}, status=403)
