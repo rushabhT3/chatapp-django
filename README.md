@@ -1,6 +1,6 @@
 # chatapp-django... Notes Project
 
-```markdown
+markdown
 
 This is a simple Django project for managing and sharing notes.
 
@@ -20,7 +20,6 @@ These instructions will get you a copy of the project up and running on your loc
 3. Create a virtual environment:
    ```bash
    python -m venv venv
-   ```
    ```
 4. Activate the virtual environment:
    ```bash
