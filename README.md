@@ -21,6 +21,7 @@ These instructions will get you a copy of the project up and running on your loc
    ```bash
    python -m venv venv
    ```
+   ```
 4. Activate the virtual environment:
    ```bash
    source venv/bin/activate
