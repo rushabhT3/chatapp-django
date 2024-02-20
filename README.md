@@ -55,6 +55,14 @@ To run the server, execute the following command in the project directory:
    python manage.py runserver
    ```
 
+## Testing
+
+To run the tests, use the following command:
+
+```bash
+python manage.py test
+```
+
 ## API Endpoints
 
 The application provides the following API endpoints:
@@ -67,12 +75,6 @@ The application provides the following API endpoints:
 - `PUT /notes/{id}`: Update an existing note.
 - `GET /notes/version-history/{id}`: Get all the changes associated with a note.
 
-## Testing
 
-To run the tests, use the following command:
-
-```bash
-python manage.py test
-```
 
 
