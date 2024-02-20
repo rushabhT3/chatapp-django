@@ -6,14 +6,11 @@ class Note(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # the owner of the note
+    shared_users = models.ManyToManyField(User, related_name='shared_notes')  # the users with whom the note is shared
 
     def __str__(self):
         return self.title
-
-    # fields here
-    # class Meta:
-    #     app_label = 'notes_app'
 
 class NoteHistory(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name='history')

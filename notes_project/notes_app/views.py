@@ -1,13 +1,12 @@
-# from django.shortcuts import render
+from django.http import JsonResponse
+from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
-from django.shortcuts import get_object_or_404
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-from django.core import serializers
 import json
 
 from .models import Note, NoteHistory
@@ -61,7 +60,7 @@ def create_note_view(request):
 class NoteView(View):
     def get(self, request, id):
         note = get_object_or_404(Note, id=id)
-        if request.user == note.user:  # assuming you have user authentication in place
+        if request.user == note.user or request.user in note.shared_users.all():  # assuming you have user authentication in place
             return JsonResponse({'title': note.title, 'content': note.content})
         else:
             return JsonResponse({'error': 'You do not have permission to view this note.'}, status=403)
@@ -87,3 +86,19 @@ class NoteHistoryView(View):
             return JsonResponse({'note_history': data})
         else:
             return JsonResponse({'error': 'You do not have permission to view this note history.'}, status=403)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ShareNoteView(View):
+    def post(self, request, id):
+        note = get_object_or_404(Note, id=id)
+        if request.user == note.user or request.user in note.shared_users.all():  # assuming you have user authentication in place
+            data = json.loads(request.body)  # parse the request body as JSON
+            user_ids = data.get('user_ids', [])  # get the list of user ids from the request body
+            for user_id in user_ids:
+                user = get_object_or_404(User, id=user_id)
+                note.shared_users.add(user)  # add the user to the shared_users of the note
+            note.save()
+            return JsonResponse({'message': 'Note shared successfully.'})
+        else:
+            return JsonResponse({'error': 'You do not have permission to share this note.'}, status=403)
+
