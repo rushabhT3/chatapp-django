@@ -15,15 +15,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Clone the repository
 2. Navigate to the project directory using ```cd notes_project```
-3. Install virtualenv If you haven’t installed virtualenv yet, you can do so using pip:
+
+Install virtualenv If you haven’t installed virtualenv yet, you can do so using pip:
    ```bash
    pip install virtualenv
    ```
 
 Create a virtual environment Navigate to your project directory and create a new virtual environment.
-```bash
-virtualenv venv
-```
+   ```bash
+   virtualenv venv
+   ```
 
 ### Windows
 
