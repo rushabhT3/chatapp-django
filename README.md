@@ -59,12 +59,4 @@ To run the tests, use the following command:
 python manage.py test
 ```
 
-## License
 
-This project is licensed under the MIT License.
-
-## Acknowledgments
-
-- Django Documentation
-- Django Community
-```
