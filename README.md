@@ -72,6 +72,5 @@ To run the tests, use the following command:
 ```bash
 python manage.py test
 ```
-```
 
 
