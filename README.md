@@ -1,6 +1,5 @@
 # chatapp-django... Notes Project
 
-
 ```markdown
 
 This is a simple Django project for managing and sharing notes.
@@ -57,6 +56,7 @@ To run the tests, use the following command:
 
 ```bash
 python manage.py test
+```
 ```
 
 
