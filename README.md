@@ -16,22 +16,18 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repository
 2. Navigate to the project directory using ```cd notes_project```
 
-Install virtualenv If you haven’t installed virtualenv yet, you can do so using pip:
+3. Install virtualenv If you haven’t installed virtualenv yet, you can do so using pip:
    ```bash
    pip install virtualenv
    ```
 
-Create a virtual environment Navigate to your project directory and create a new virtual environment.
+   Create a virtual environment Navigate to your project directory and create a new virtual environment.
    ```bash
    virtualenv venv
    ```
 
 ### Windows
 
-3. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
 4. Activate the virtual environment:
    ```bash
    .\venv\Scripts\activate
@@ -39,10 +35,6 @@ Create a virtual environment Navigate to your project directory and create a new
 
 ### Unix or MacOS
 
-3. Create a virtual environment:
-   ```bash
-   python3 -m venv venv
-   ```
 4. Activate the virtual environment:
    ```bash
    source venv/bin/activate
@@ -54,9 +46,9 @@ In these commands, `venv` is the name of the virtual environment. You can replac
 
 To run the server, execute the following command in the project directory:
 
-```bash
-python manage.py runserver
-```
+   ```bash
+   python manage.py runserver
+   ```
 
 ## API Endpoints
 
