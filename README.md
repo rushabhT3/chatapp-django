@@ -42,6 +42,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 In these commands, `venv` is the name of the virtual environment. You can replace `venv` with any name you prefer. Once the virtual environment is activated, you can install the necessary packages in it without affecting your global Python environment. To deactivate the virtual environment, you can simply type `deactivate` in your terminal.
 
+5. Install Django With the virtual environment activated, you can now install Django:
+   ```bash
+   pip install django
+   ```
+
 ### Running the Server
 
 To run the server, execute the following command in the project directory:
